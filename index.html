@@ -1,264 +1,240 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>CosyVoice3 - 人员B</title>
-<style>
-body { font-family: -apple-system, sans-serif; margin: 20px; padding-bottom: 60px; background: #f5f5f5; }
-h1 { color: #2c3e50; margin-bottom: 8px; }
-.stats { background: #ecf0f1; padding: 8px 15px; border-radius: 6px; margin-bottom: 15px; display: inline-block; font-size: 14px; }
-.summary { background: white; padding: 10px 16px; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 14px; }
-.toc { background: white; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.toc a { text-decoration: none; margin-right: 12px; font-size: 13px; }
-.group-header { padding: 10px 16px; color: white; border-radius: 6px 6px 0 0; margin-top: 24px; font-size: 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-.group-header .count { font-size: 13px; font-weight: normal; opacity: 0.85; }
-table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 4px; }
-th { background: #34495e; color: white; padding: 8px 10px; text-align: left; font-size: 13px; position: sticky; top: 0; z-index: 10; }
-td { padding: 6px 10px; border-bottom: 1px solid #eee; vertical-align: middle; font-size: 13px; }
-tr:hover { background: #f8f9fa; }
-tr.first-of-text { border-top: 2px solid #bbb; }
-.tag { color: #e74c3c; font-weight: bold; }
-.missing { color: #999; font-style: italic; }
-.spk { display: inline-block; background: #ecf0f1; border-radius: 3px; padding: 1px 6px; font-size: 11px; color: #555; min-width: 60px; text-align: center; }
-audio { height: 30px; }
-.eval-cell { white-space: nowrap; }
-.eval-cell label { margin-right: 2px; cursor: pointer; font-size: 12px; padding: 2px 8px; border-radius: 3px; border: 1px solid #ddd; display: inline-block; }
-.eval-cell label:hover { background: #f0f0f0; }
-.eval-cell input[type="radio"] { display: none; }
-.eval-cell input[value="success"]:checked + span { color: white; background: #27ae60; padding: 2px 8px; margin: -2px -8px; border-radius: 3px; }
-.eval-cell input[value="partial"]:checked + span { color: white; background: #f39c12; padding: 2px 8px; margin: -2px -8px; border-radius: 3px; }
-.eval-cell input[value="fail"]:checked + span { color: white; background: #e74c3c; padding: 2px 8px; margin: -2px -8px; border-radius: 3px; }
-.toolbar { position: fixed; bottom: 0; left: 0; right: 0; background: #2c3e50; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -2px 8px rgba(0,0,0,0.3); }
-.toolbar button { padding: 6px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; margin-left: 6px; }
-.btn-export { background: #27ae60; color: white; }
-.btn-export:hover { background: #219a52; }
-.btn-import { background: #3498db; color: white; }
-.btn-import:hover { background: #2980b9; }
-.btn-clear { background: #e74c3c; color: white; }
-.btn-clear:hover { background: #c0392b; }
-</style>
-</head><body>
-<h1>CosyVoice3 - 人员B</h1>
-<div class="stats">Total: 84 | Found: 84 | Missing: 0 | Texts: 4 | Groups: 2</div>
-<div class="summary" id="summaryBox"></div>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivi-Speech Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-size: 0.95em;
+        }
+        .links a:hover {
+            background: white;
+            color: #667eea;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .section h3 {
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+            color: #764ba2;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .audio-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .audio-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .audio-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .audio-table tr:hover {
+            background: #f5f5f5;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+        }
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+        .placeholder {
+            background: #f0f0f0;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .section { padding: 20px; }
+            .audio-table { font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ Vivi-Speech</h1>
+            <p>Advanced Speech Generation System</p>
+            <div class="links">
+                <a href="https://github.com/yd11111/vivi-speech" target="_blank">GitHub</a>
+                <a href="#">Paper (待补充)</a>
+                <a href="#">Model (待补充)</a>
+            </div>
+        </div>
 
-<div class="toc"><b>目录：</b>
-<a href="#COUGH" style="color:#9b59b6">COUGH (2)</a> 
-<a href="#BREATH" style="color:#3498db">BREATH (2)</a> 
-</div>
-<div class="group-header" id="COUGH" style="background:#9b59b6">COUGH<span class="count">2 条</span></div>
-<table><thead><tr><th style="width:30px">#</th><th style="width:80px">Speaker</th><th>Text</th><th style="width:250px">Prompt</th><th style="width:250px">Synthesized</th><th style="width:170px">副语言评价</th></tr></thead><tbody>
-<tr class="first-of-text"><td>1</td><td><span class="spk">xiaogao</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_xiaogao.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_xiaogao.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__xiaogao" value="success" onchange="save('cough_M1__xiaogao',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__xiaogao" value="partial" onchange="save('cough_M1__xiaogao',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__xiaogao" value="fail" onchange="save('cough_M1__xiaogao',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>2</td><td><span class="spk">emilia</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_emilia.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_emilia.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__emilia" value="success" onchange="save('cough_M1__emilia',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__emilia" value="partial" onchange="save('cough_M1__emilia',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__emilia" value="fail" onchange="save('cough_M1__emilia',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>3</td><td><span class="spk">DBCNF22</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNF22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNF22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNF22" value="success" onchange="save('cough_M1__DBCNF22',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNF22" value="partial" onchange="save('cough_M1__DBCNF22',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNF22" value="fail" onchange="save('cough_M1__DBCNF22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>4</td><td><span class="spk">DBCNM22</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNM22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNM22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNM22" value="success" onchange="save('cough_M1__DBCNM22',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNM22" value="partial" onchange="save('cough_M1__DBCNM22',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNM22" value="fail" onchange="save('cough_M1__DBCNM22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>5</td><td><span class="spk">DBCNM23</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNM23.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNM23.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNM23" value="success" onchange="save('cough_M1__DBCNM23',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNM23" value="partial" onchange="save('cough_M1__DBCNM23',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNM23" value="fail" onchange="save('cough_M1__DBCNM23',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>6</td><td><span class="spk">t0</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t0.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t0.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t0" value="success" onchange="save('cough_M1__t0',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t0" value="partial" onchange="save('cough_M1__t0',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t0" value="fail" onchange="save('cough_M1__t0',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>7</td><td><span class="spk">t1</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t1.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t1.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t1" value="success" onchange="save('cough_M1__t1',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t1" value="partial" onchange="save('cough_M1__t1',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t1" value="fail" onchange="save('cough_M1__t1',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>8</td><td><span class="spk">t2</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t2.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t2.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t2" value="success" onchange="save('cough_M1__t2',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t2" value="partial" onchange="save('cough_M1__t2',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t2" value="fail" onchange="save('cough_M1__t2',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>9</td><td><span class="spk">t3</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t3.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t3.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t3" value="success" onchange="save('cough_M1__t3',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t3" value="partial" onchange="save('cough_M1__t3',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t3" value="fail" onchange="save('cough_M1__t3',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>10</td><td><span class="spk">t5</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t5.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t5.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t5" value="success" onchange="save('cough_M1__t5',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t5" value="partial" onchange="save('cough_M1__t5',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t5" value="fail" onchange="save('cough_M1__t5',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>11</td><td><span class="spk">t7</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t7.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t7.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t7" value="success" onchange="save('cough_M1__t7',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t7" value="partial" onchange="save('cough_M1__t7',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t7" value="fail" onchange="save('cough_M1__t7',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>12</td><td><span class="spk">t10</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t10.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t10.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t10" value="success" onchange="save('cough_M1__t10',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t10" value="partial" onchange="save('cough_M1__t10',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t10" value="fail" onchange="save('cough_M1__t10',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>13</td><td><span class="spk">t14</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_t14.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_t14.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__t14" value="success" onchange="save('cough_M1__t14',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__t14" value="partial" onchange="save('cough_M1__t14',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__t14" value="fail" onchange="save('cough_M1__t14',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>14</td><td><span class="spk">linzhiling</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_linzhiling.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_linzhiling.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__linzhiling" value="success" onchange="save('cough_M1__linzhiling',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__linzhiling" value="partial" onchange="save('cough_M1__linzhiling',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__linzhiling" value="fail" onchange="save('cough_M1__linzhiling',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>15</td><td><span class="spk">DBCNF16</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNF16.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNF16.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNF16" value="success" onchange="save('cough_M1__DBCNF16',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNF16" value="partial" onchange="save('cough_M1__DBCNF16',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNF16" value="fail" onchange="save('cough_M1__DBCNF16',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>16</td><td><span class="spk">DBCNM02</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNM02.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNM02.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNM02" value="success" onchange="save('cough_M1__DBCNM02',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNM02" value="partial" onchange="save('cough_M1__DBCNM02',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNM02" value="fail" onchange="save('cough_M1__DBCNM02',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>17</td><td><span class="spk">DBCNCK01</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_DBCNCK01.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_DBCNCK01.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__DBCNCK01" value="success" onchange="save('cough_M1__DBCNCK01',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__DBCNCK01" value="partial" onchange="save('cough_M1__DBCNCK01',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__DBCNCK01" value="fail" onchange="save('cough_M1__DBCNCK01',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>18</td><td><span class="spk">tianmengF05</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_tianmengF05.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_tianmengF05.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__tianmengF05" value="success" onchange="save('cough_M1__tianmengF05',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__tianmengF05" value="partial" onchange="save('cough_M1__tianmengF05',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__tianmengF05" value="fail" onchange="save('cough_M1__tianmengF05',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>19</td><td><span class="spk">xingganF09</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_xingganF09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_xingganF09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__xingganF09" value="success" onchange="save('cough_M1__xingganF09',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__xingganF09" value="partial" onchange="save('cough_M1__xingganF09',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__xingganF09" value="fail" onchange="save('cough_M1__xingganF09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>20</td><td><span class="spk">cixingM09</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_cixingM09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_cixingM09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__cixingM09" value="success" onchange="save('cough_M1__cixingM09',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__cixingM09" value="partial" onchange="save('cough_M1__cixingM09',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__cixingM09" value="fail" onchange="save('cough_M1__cixingM09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>21</td><td><span class="spk">mimitomo</span></td><td>我水喝太急了<span class="tag">[cough]</span>差点没咽下去。</td><td><audio controls preload="none"><source src="prompt_mimitomo.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M1_mimitomo.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M1__mimitomo" value="success" onchange="save('cough_M1__mimitomo',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M1__mimitomo" value="partial" onchange="save('cough_M1__mimitomo',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M1__mimitomo" value="fail" onchange="save('cough_M1__mimitomo',this.value)"><span>失败</span></label></div></td></tr>
-<tr class="first-of-text"><td>22</td><td><span class="spk">xiaogao</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_xiaogao.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_xiaogao.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__xiaogao" value="success" onchange="save('cough_M2__xiaogao',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__xiaogao" value="partial" onchange="save('cough_M2__xiaogao',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__xiaogao" value="fail" onchange="save('cough_M2__xiaogao',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>23</td><td><span class="spk">emilia</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_emilia.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_emilia.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__emilia" value="success" onchange="save('cough_M2__emilia',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__emilia" value="partial" onchange="save('cough_M2__emilia',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__emilia" value="fail" onchange="save('cough_M2__emilia',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>24</td><td><span class="spk">DBCNF22</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNF22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNF22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNF22" value="success" onchange="save('cough_M2__DBCNF22',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNF22" value="partial" onchange="save('cough_M2__DBCNF22',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNF22" value="fail" onchange="save('cough_M2__DBCNF22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>25</td><td><span class="spk">DBCNM22</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNM22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNM22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNM22" value="success" onchange="save('cough_M2__DBCNM22',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNM22" value="partial" onchange="save('cough_M2__DBCNM22',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNM22" value="fail" onchange="save('cough_M2__DBCNM22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>26</td><td><span class="spk">DBCNM23</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNM23.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNM23.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNM23" value="success" onchange="save('cough_M2__DBCNM23',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNM23" value="partial" onchange="save('cough_M2__DBCNM23',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNM23" value="fail" onchange="save('cough_M2__DBCNM23',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>27</td><td><span class="spk">t0</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t0.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t0.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t0" value="success" onchange="save('cough_M2__t0',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t0" value="partial" onchange="save('cough_M2__t0',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t0" value="fail" onchange="save('cough_M2__t0',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>28</td><td><span class="spk">t1</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t1.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t1.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t1" value="success" onchange="save('cough_M2__t1',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t1" value="partial" onchange="save('cough_M2__t1',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t1" value="fail" onchange="save('cough_M2__t1',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>29</td><td><span class="spk">t2</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t2.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t2.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t2" value="success" onchange="save('cough_M2__t2',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t2" value="partial" onchange="save('cough_M2__t2',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t2" value="fail" onchange="save('cough_M2__t2',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>30</td><td><span class="spk">t3</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t3.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t3.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t3" value="success" onchange="save('cough_M2__t3',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t3" value="partial" onchange="save('cough_M2__t3',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t3" value="fail" onchange="save('cough_M2__t3',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>31</td><td><span class="spk">t5</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t5.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t5.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t5" value="success" onchange="save('cough_M2__t5',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t5" value="partial" onchange="save('cough_M2__t5',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t5" value="fail" onchange="save('cough_M2__t5',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>32</td><td><span class="spk">t7</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t7.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t7.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t7" value="success" onchange="save('cough_M2__t7',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t7" value="partial" onchange="save('cough_M2__t7',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t7" value="fail" onchange="save('cough_M2__t7',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>33</td><td><span class="spk">t10</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t10.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t10.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t10" value="success" onchange="save('cough_M2__t10',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t10" value="partial" onchange="save('cough_M2__t10',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t10" value="fail" onchange="save('cough_M2__t10',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>34</td><td><span class="spk">t14</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_t14.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_t14.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__t14" value="success" onchange="save('cough_M2__t14',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__t14" value="partial" onchange="save('cough_M2__t14',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__t14" value="fail" onchange="save('cough_M2__t14',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>35</td><td><span class="spk">linzhiling</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_linzhiling.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_linzhiling.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__linzhiling" value="success" onchange="save('cough_M2__linzhiling',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__linzhiling" value="partial" onchange="save('cough_M2__linzhiling',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__linzhiling" value="fail" onchange="save('cough_M2__linzhiling',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>36</td><td><span class="spk">DBCNF16</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNF16.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNF16.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNF16" value="success" onchange="save('cough_M2__DBCNF16',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNF16" value="partial" onchange="save('cough_M2__DBCNF16',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNF16" value="fail" onchange="save('cough_M2__DBCNF16',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>37</td><td><span class="spk">DBCNM02</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNM02.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNM02.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNM02" value="success" onchange="save('cough_M2__DBCNM02',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNM02" value="partial" onchange="save('cough_M2__DBCNM02',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNM02" value="fail" onchange="save('cough_M2__DBCNM02',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>38</td><td><span class="spk">DBCNCK01</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_DBCNCK01.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_DBCNCK01.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__DBCNCK01" value="success" onchange="save('cough_M2__DBCNCK01',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__DBCNCK01" value="partial" onchange="save('cough_M2__DBCNCK01',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__DBCNCK01" value="fail" onchange="save('cough_M2__DBCNCK01',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>39</td><td><span class="spk">tianmengF05</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_tianmengF05.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_tianmengF05.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__tianmengF05" value="success" onchange="save('cough_M2__tianmengF05',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__tianmengF05" value="partial" onchange="save('cough_M2__tianmengF05',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__tianmengF05" value="fail" onchange="save('cough_M2__tianmengF05',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>40</td><td><span class="spk">xingganF09</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_xingganF09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_xingganF09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__xingganF09" value="success" onchange="save('cough_M2__xingganF09',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__xingganF09" value="partial" onchange="save('cough_M2__xingganF09',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__xingganF09" value="fail" onchange="save('cough_M2__xingganF09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>41</td><td><span class="spk">cixingM09</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_cixingM09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_cixingM09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__cixingM09" value="success" onchange="save('cough_M2__cixingM09',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__cixingM09" value="partial" onchange="save('cough_M2__cixingM09',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__cixingM09" value="fail" onchange="save('cough_M2__cixingM09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>42</td><td><span class="spk">mimitomo</span></td><td>这辣味一下冲上来<span class="tag">[cough]</span>我人都咳清醒了。</td><td><audio controls preload="none"><source src="prompt_mimitomo.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="cough_M2_mimitomo.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_cough_M2__mimitomo" value="success" onchange="save('cough_M2__mimitomo',this.value)"><span>成功</span></label><label><input type="radio" name="r_cough_M2__mimitomo" value="partial" onchange="save('cough_M2__mimitomo',this.value)"><span>部分</span></label><label><input type="radio" name="r_cough_M2__mimitomo" value="fail" onchange="save('cough_M2__mimitomo',this.value)"><span>失败</span></label></div></td></tr>
-</tbody></table>
-<div class="group-header" id="BREATH" style="background:#3498db">BREATH<span class="count">2 条</span></div>
-<table><thead><tr><th style="width:30px">#</th><th style="width:80px">Speaker</th><th>Text</th><th style="width:250px">Prompt</th><th style="width:250px">Synthesized</th><th style="width:170px">副语言评价</th></tr></thead><tbody>
-<tr class="first-of-text"><td>43</td><td><span class="spk">xiaogao</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_xiaogao.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_xiaogao.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__xiaogao" value="success" onchange="save('breath_M1__xiaogao',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__xiaogao" value="partial" onchange="save('breath_M1__xiaogao',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__xiaogao" value="fail" onchange="save('breath_M1__xiaogao',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>44</td><td><span class="spk">emilia</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_emilia.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_emilia.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__emilia" value="success" onchange="save('breath_M1__emilia',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__emilia" value="partial" onchange="save('breath_M1__emilia',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__emilia" value="fail" onchange="save('breath_M1__emilia',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>45</td><td><span class="spk">DBCNF22</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNF22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNF22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNF22" value="success" onchange="save('breath_M1__DBCNF22',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNF22" value="partial" onchange="save('breath_M1__DBCNF22',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNF22" value="fail" onchange="save('breath_M1__DBCNF22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>46</td><td><span class="spk">DBCNM22</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNM22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNM22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNM22" value="success" onchange="save('breath_M1__DBCNM22',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNM22" value="partial" onchange="save('breath_M1__DBCNM22',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNM22" value="fail" onchange="save('breath_M1__DBCNM22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>47</td><td><span class="spk">DBCNM23</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNM23.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNM23.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNM23" value="success" onchange="save('breath_M1__DBCNM23',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNM23" value="partial" onchange="save('breath_M1__DBCNM23',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNM23" value="fail" onchange="save('breath_M1__DBCNM23',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>48</td><td><span class="spk">t0</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t0.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t0.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t0" value="success" onchange="save('breath_M1__t0',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t0" value="partial" onchange="save('breath_M1__t0',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t0" value="fail" onchange="save('breath_M1__t0',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>49</td><td><span class="spk">t1</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t1.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t1.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t1" value="success" onchange="save('breath_M1__t1',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t1" value="partial" onchange="save('breath_M1__t1',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t1" value="fail" onchange="save('breath_M1__t1',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>50</td><td><span class="spk">t2</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t2.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t2.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t2" value="success" onchange="save('breath_M1__t2',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t2" value="partial" onchange="save('breath_M1__t2',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t2" value="fail" onchange="save('breath_M1__t2',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>51</td><td><span class="spk">t3</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t3.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t3.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t3" value="success" onchange="save('breath_M1__t3',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t3" value="partial" onchange="save('breath_M1__t3',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t3" value="fail" onchange="save('breath_M1__t3',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>52</td><td><span class="spk">t5</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t5.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t5.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t5" value="success" onchange="save('breath_M1__t5',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t5" value="partial" onchange="save('breath_M1__t5',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t5" value="fail" onchange="save('breath_M1__t5',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>53</td><td><span class="spk">t7</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t7.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t7.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t7" value="success" onchange="save('breath_M1__t7',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t7" value="partial" onchange="save('breath_M1__t7',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t7" value="fail" onchange="save('breath_M1__t7',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>54</td><td><span class="spk">t10</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t10.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t10.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t10" value="success" onchange="save('breath_M1__t10',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t10" value="partial" onchange="save('breath_M1__t10',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t10" value="fail" onchange="save('breath_M1__t10',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>55</td><td><span class="spk">t14</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_t14.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_t14.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__t14" value="success" onchange="save('breath_M1__t14',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__t14" value="partial" onchange="save('breath_M1__t14',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__t14" value="fail" onchange="save('breath_M1__t14',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>56</td><td><span class="spk">linzhiling</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_linzhiling.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_linzhiling.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__linzhiling" value="success" onchange="save('breath_M1__linzhiling',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__linzhiling" value="partial" onchange="save('breath_M1__linzhiling',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__linzhiling" value="fail" onchange="save('breath_M1__linzhiling',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>57</td><td><span class="spk">DBCNF16</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNF16.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNF16.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNF16" value="success" onchange="save('breath_M1__DBCNF16',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNF16" value="partial" onchange="save('breath_M1__DBCNF16',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNF16" value="fail" onchange="save('breath_M1__DBCNF16',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>58</td><td><span class="spk">DBCNM02</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNM02.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNM02.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNM02" value="success" onchange="save('breath_M1__DBCNM02',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNM02" value="partial" onchange="save('breath_M1__DBCNM02',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNM02" value="fail" onchange="save('breath_M1__DBCNM02',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>59</td><td><span class="spk">DBCNCK01</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_DBCNCK01.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_DBCNCK01.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__DBCNCK01" value="success" onchange="save('breath_M1__DBCNCK01',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__DBCNCK01" value="partial" onchange="save('breath_M1__DBCNCK01',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__DBCNCK01" value="fail" onchange="save('breath_M1__DBCNCK01',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>60</td><td><span class="spk">tianmengF05</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_tianmengF05.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_tianmengF05.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__tianmengF05" value="success" onchange="save('breath_M1__tianmengF05',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__tianmengF05" value="partial" onchange="save('breath_M1__tianmengF05',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__tianmengF05" value="fail" onchange="save('breath_M1__tianmengF05',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>61</td><td><span class="spk">xingganF09</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_xingganF09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_xingganF09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__xingganF09" value="success" onchange="save('breath_M1__xingganF09',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__xingganF09" value="partial" onchange="save('breath_M1__xingganF09',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__xingganF09" value="fail" onchange="save('breath_M1__xingganF09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>62</td><td><span class="spk">cixingM09</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_cixingM09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_cixingM09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__cixingM09" value="success" onchange="save('breath_M1__cixingM09',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__cixingM09" value="partial" onchange="save('breath_M1__cixingM09',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__cixingM09" value="fail" onchange="save('breath_M1__cixingM09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>63</td><td><span class="spk">mimitomo</span></td><td>我刚一口气爬到六楼<span class="tag">[breath]</span>腿都快软了。</td><td><audio controls preload="none"><source src="prompt_mimitomo.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M1_mimitomo.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M1__mimitomo" value="success" onchange="save('breath_M1__mimitomo',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M1__mimitomo" value="partial" onchange="save('breath_M1__mimitomo',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M1__mimitomo" value="fail" onchange="save('breath_M1__mimitomo',this.value)"><span>失败</span></label></div></td></tr>
-<tr class="first-of-text"><td>64</td><td><span class="spk">xiaogao</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_xiaogao.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_xiaogao.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__xiaogao" value="success" onchange="save('breath_M2__xiaogao',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__xiaogao" value="partial" onchange="save('breath_M2__xiaogao',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__xiaogao" value="fail" onchange="save('breath_M2__xiaogao',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>65</td><td><span class="spk">emilia</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_emilia.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_emilia.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__emilia" value="success" onchange="save('breath_M2__emilia',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__emilia" value="partial" onchange="save('breath_M2__emilia',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__emilia" value="fail" onchange="save('breath_M2__emilia',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>66</td><td><span class="spk">DBCNF22</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNF22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNF22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNF22" value="success" onchange="save('breath_M2__DBCNF22',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNF22" value="partial" onchange="save('breath_M2__DBCNF22',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNF22" value="fail" onchange="save('breath_M2__DBCNF22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>67</td><td><span class="spk">DBCNM22</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNM22.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNM22.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNM22" value="success" onchange="save('breath_M2__DBCNM22',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNM22" value="partial" onchange="save('breath_M2__DBCNM22',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNM22" value="fail" onchange="save('breath_M2__DBCNM22',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>68</td><td><span class="spk">DBCNM23</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNM23.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNM23.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNM23" value="success" onchange="save('breath_M2__DBCNM23',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNM23" value="partial" onchange="save('breath_M2__DBCNM23',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNM23" value="fail" onchange="save('breath_M2__DBCNM23',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>69</td><td><span class="spk">t0</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t0.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t0.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t0" value="success" onchange="save('breath_M2__t0',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t0" value="partial" onchange="save('breath_M2__t0',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t0" value="fail" onchange="save('breath_M2__t0',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>70</td><td><span class="spk">t1</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t1.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t1.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t1" value="success" onchange="save('breath_M2__t1',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t1" value="partial" onchange="save('breath_M2__t1',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t1" value="fail" onchange="save('breath_M2__t1',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>71</td><td><span class="spk">t2</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t2.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t2.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t2" value="success" onchange="save('breath_M2__t2',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t2" value="partial" onchange="save('breath_M2__t2',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t2" value="fail" onchange="save('breath_M2__t2',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>72</td><td><span class="spk">t3</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t3.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t3.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t3" value="success" onchange="save('breath_M2__t3',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t3" value="partial" onchange="save('breath_M2__t3',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t3" value="fail" onchange="save('breath_M2__t3',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>73</td><td><span class="spk">t5</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t5.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t5.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t5" value="success" onchange="save('breath_M2__t5',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t5" value="partial" onchange="save('breath_M2__t5',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t5" value="fail" onchange="save('breath_M2__t5',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>74</td><td><span class="spk">t7</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t7.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t7.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t7" value="success" onchange="save('breath_M2__t7',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t7" value="partial" onchange="save('breath_M2__t7',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t7" value="fail" onchange="save('breath_M2__t7',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>75</td><td><span class="spk">t10</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t10.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t10.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t10" value="success" onchange="save('breath_M2__t10',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t10" value="partial" onchange="save('breath_M2__t10',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t10" value="fail" onchange="save('breath_M2__t10',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>76</td><td><span class="spk">t14</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_t14.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_t14.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__t14" value="success" onchange="save('breath_M2__t14',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__t14" value="partial" onchange="save('breath_M2__t14',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__t14" value="fail" onchange="save('breath_M2__t14',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>77</td><td><span class="spk">linzhiling</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_linzhiling.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_linzhiling.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__linzhiling" value="success" onchange="save('breath_M2__linzhiling',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__linzhiling" value="partial" onchange="save('breath_M2__linzhiling',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__linzhiling" value="fail" onchange="save('breath_M2__linzhiling',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>78</td><td><span class="spk">DBCNF16</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNF16.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNF16.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNF16" value="success" onchange="save('breath_M2__DBCNF16',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNF16" value="partial" onchange="save('breath_M2__DBCNF16',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNF16" value="fail" onchange="save('breath_M2__DBCNF16',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>79</td><td><span class="spk">DBCNM02</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNM02.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNM02.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNM02" value="success" onchange="save('breath_M2__DBCNM02',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNM02" value="partial" onchange="save('breath_M2__DBCNM02',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNM02" value="fail" onchange="save('breath_M2__DBCNM02',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>80</td><td><span class="spk">DBCNCK01</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_DBCNCK01.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_DBCNCK01.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__DBCNCK01" value="success" onchange="save('breath_M2__DBCNCK01',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__DBCNCK01" value="partial" onchange="save('breath_M2__DBCNCK01',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__DBCNCK01" value="fail" onchange="save('breath_M2__DBCNCK01',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>81</td><td><span class="spk">tianmengF05</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_tianmengF05.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_tianmengF05.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__tianmengF05" value="success" onchange="save('breath_M2__tianmengF05',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__tianmengF05" value="partial" onchange="save('breath_M2__tianmengF05',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__tianmengF05" value="fail" onchange="save('breath_M2__tianmengF05',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>82</td><td><span class="spk">xingganF09</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_xingganF09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_xingganF09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__xingganF09" value="success" onchange="save('breath_M2__xingganF09',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__xingganF09" value="partial" onchange="save('breath_M2__xingganF09',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__xingganF09" value="fail" onchange="save('breath_M2__xingganF09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>83</td><td><span class="spk">cixingM09</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_cixingM09.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_cixingM09.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__cixingM09" value="success" onchange="save('breath_M2__cixingM09',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__cixingM09" value="partial" onchange="save('breath_M2__cixingM09',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__cixingM09" value="fail" onchange="save('breath_M2__cixingM09',this.value)"><span>失败</span></label></div></td></tr>
-<tr><td>84</td><td><span class="spk">mimitomo</span></td><td>你先别催我<span class="tag">[breath]</span>我这会儿还没喘匀呢。</td><td><audio controls preload="none"><source src="prompt_mimitomo.wav" type="audio/wav"></audio></td><td><audio controls preload="none"><source src="breath_M2_mimitomo.wav" type="audio/wav"></audio></td><td><div class="eval-cell"><label><input type="radio" name="r_breath_M2__mimitomo" value="success" onchange="save('breath_M2__mimitomo',this.value)"><span>成功</span></label><label><input type="radio" name="r_breath_M2__mimitomo" value="partial" onchange="save('breath_M2__mimitomo',this.value)"><span>部分</span></label><label><input type="radio" name="r_breath_M2__mimitomo" value="fail" onchange="save('breath_M2__mimitomo',this.value)"><span>失败</span></label></div></td></tr>
-</tbody></table>
+        <div class="section">
+            <h2>Overview</h2>
+            <p>Vivi-Speech 是一个先进的语音生成系统。[模型详细介绍待补充]</p>
+            
+            <h3>Key Features</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🌍 多语言支持</h4>
+                    <p>[待补充]</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎯 高保真度</h4>
+                    <p>[待补充]</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⚡ 低延迟</h4>
+                    <p>[待补充]</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔧 可控性强</h4>
+                    <p>[待补充]</p>
+                </div>
+            </div>
+        </div>
 
-<div class="toolbar">
-    <span id="prog">已评价: 0 / 84</span>
-    <div>
-        <button class="btn-export" onclick="exportJSON()">保存评价 (JSON)</button>
-        <button class="btn-export" onclick="exportCSV()">导出 CSV</button>
-        <button class="btn-import" onclick="document.getElementById('importFile').click()">导入评价</button>
-        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
-        <button class="btn-clear" onclick="clearAll()">清空</button>
+        <div class="section">
+            <h2>Audio Samples</h2>
+            <p>以下是一些示例音频，展示 Vivi-Speech 的语音生成能力。[音频样本待补充]</p>
+            
+            <h3>Zero-shot Voice Cloning</h3>
+            <div class="placeholder">
+                音频样本待添加<br>
+                <small>请将音频文件放置到合适的位置，并更新此页面</small>
+            </div>
+
+            <h3>Cross-lingual Synthesis</h3>
+            <div class="placeholder">
+                音频样本待添加<br>
+                <small>请将音频文件放置到合适的位置，并更新此页面</small>
+            </div>
+
+            <h3>Emotional Speech</h3>
+            <div class="placeholder">
+                音频样本待添加<br>
+                <small>请将音频文件放置到合适的位置，并更新此页面</small>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Evaluation</h2>
+            <p>[评估数据和对比结果待补充]</p>
+            
+            <table class="audio-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>MOS ↑</th>
+                        <th>SMOS ↑</th>
+                        <th>WER ↓</th>
+                        <th>SIM ↑</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vivi-Speech</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Vivi-Speech | Built with ❤️</p>
+        </div>
     </div>
-</div>
-
-<script>
-const SK = "eval_CosyVoice3_____B";
-let R = {};
-let canLS = false;
-let saved = true;
-
-try { localStorage.setItem('_test', '1'); localStorage.removeItem('_test'); canLS = true; } catch(e) {}
-
-function init() {
-    if (canLS) {
-        let s = localStorage.getItem(SK);
-        if (s) { R = JSON.parse(s); apply(); }
-    } else {
-        let w = document.createElement('div');
-        w.style.cssText = 'background:#e74c3c;color:white;padding:10px 16px;border-radius:6px;margin-bottom:15px;font-size:14px;';
-        w.innerHTML = '<b>注意：</b>当前浏览器不支持自动保存（file://协议限制）。请评价完成后点击底部 <b>"保存评价 (JSON)"</b> 导出结果，下次打开可通过 <b>"导入评价"</b> 恢复。';
-        document.querySelector('.stats').after(w);
-    }
-    upd();
-}
-
-function apply() {
-    for (let [u, v] of Object.entries(R)) {
-        let el = document.querySelector('input[name="r_'+u+'"][value="'+v+'"]');
-        if (el) el.checked = true;
-    }
-}
-
-function persist() {
-    if (canLS) { try { localStorage.setItem(SK, JSON.stringify(R)); } catch(e) {} }
-}
-
-function save(u, v) {
-    R[u] = v;
-    saved = false;
-    persist();
-    upd();
-}
-
-function upd() {
-    let n = Object.keys(R).length;
-    let sc = 0, pa = 0, fa = 0;
-    for (let v of Object.values(R)) {
-        if (v === 'success') sc++;
-        else if (v === 'partial') pa++;
-        else if (v === 'fail') fa++;
-    }
-    document.getElementById('prog').textContent = '已评价: ' + n + ' / 84';
-    let pct = n > 0 ? (sc / n * 100).toFixed(1) : '0.0';
-    document.getElementById('summaryBox').innerHTML =
-        '<b>评价统计：</b> 成功 <span style="color:#27ae60;font-weight:bold">' + sc + '</span> | ' +
-        '部分 <span style="color:#f39c12;font-weight:bold">' + pa + '</span> | ' +
-        '失败 <span style="color:#e74c3c;font-weight:bold">' + fa + '</span> | ' +
-        '成功率 <b>' + pct + '%</b> (' + n + '/' + 84 + ')';
-}
-
-function exportJSON() {
-    let blob = new Blob([JSON.stringify(R, null, 2)], {type:'application/json'});
-    let a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'CosyVoice3_____B_ratings.json';
-    a.click();
-    saved = true;
-}
-
-function exportCSV() {
-    let lines = ['text_id,speaker,rating'];
-    for (let [u, v] of Object.entries(R)) {
-        let idx = u.lastIndexOf('__');
-        lines.push(u.substring(0,idx) + ',' + u.substring(idx+2) + ',' + v);
-    }
-    let blob = new Blob([lines.join('\n')], {type:'text/csv'});
-    let a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'CosyVoice3_____B_ratings.csv';
-    a.click();
-    saved = true;
-}
-
-function importJSON(e) {
-    let f = e.target.files[0];
-    if (!f) return;
-    let reader = new FileReader();
-    reader.onload = function(ev) {
-        try {
-            R = JSON.parse(ev.target.result);
-            persist();
-            document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
-            apply();
-            upd();
-            saved = true;
-            alert('已导入 ' + Object.keys(R).length + ' 条评价');
-        } catch(err) { alert('导入失败: ' + err); }
-    };
-    reader.readAsText(f);
-    e.target.value = '';
-}
-
-function clearAll() {
-    if (!confirm('确认清空所有评价？')) return;
-    R = {};
-    if (canLS) { try { localStorage.removeItem(SK); } catch(e) {} }
-    document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
-    saved = true;
-    upd();
-}
-
-window.addEventListener('beforeunload', function(e) {
-    if (!saved && !canLS && Object.keys(R).length > 0) {
-        e.preventDefault();
-        e.returnValue = '评价尚未导出，确定离开？';
-    }
-});
-
-init();
-</script>
-</body></html>
+</body>
+</html>
